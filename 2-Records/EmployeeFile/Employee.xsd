@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/" xmlns:ibmDfdlExtn="http://www.ibm.com/dfdl/extensions" xmlns:ibmSchExtn="http://www.ibm.com/schema/extensions" xmlns:recFixLengthFieldsFmt="http://www.ibm.com/dfdl/RecordFixLengthFieldFormat" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:import namespace="http://www.ibm.com/dfdl/RecordFixLengthFieldFormat" schemaLocation="IBMdefined/RecordFixLengthFieldFormat.xsd"/>
+    <xsd:annotation>
+		<xsd:appinfo source="http://www.ogf.org/dfdl/">
+			<dfdl:format byteOrder="{$dfdl:byteOrder}" encoding="{$dfdl:encoding}" escapeSchemeRef="recFixLengthFieldsFmt:RecordEscapeScheme" occursCountKind="fixed" ref="recFixLengthFieldsFmt:RecordFixLengthFieldsFormat" separatorPolicy="suppressed"/>
+		</xsd:appinfo>
+	</xsd:annotation>
+
+	<xsd:element dfdl:lengthKind="delimited" dfdl:terminator="" ibmSchExtn:docRoot="true" name="Employee">
+		<xsd:complexType>
+			<xsd:sequence dfdl:separator="">
+				<xsd:element dfdl:lengthKind="delimited" dfdl:occursCountKind="implicit" dfdl:terminator="" maxOccurs="unbounded" name="Record">
+					<xsd:complexType>
+						<xsd:sequence dfdl:separatorPolicy="suppressedAtEndLax">
+							<xsd:element dfdl:length="15" ibmDfdlExtn:sampleValue="body_valu1" name="LastName" type="xsd:string"/>
+							<xsd:element dfdl:length="10" ibmDfdlExtn:sampleValue="body_valu2" name="FirstName" type="xsd:string"/>
+							<xsd:element dfdl:length="8" ibmDfdlExtn:sampleValue="body_valu3" name="HireDate" type="xsd:string"/>
+                            <xsd:element dfdl:length="25" ibmDfdlExtn:sampleValue="body_value4" name="Title" type="xsd:string"/>
+                            <xsd:element dfdl:length="2" dfdl:terminator="" ibmDfdlExtn:sampleValue="body_value5" name="Department" type="xsd:string"/>
+                        </xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+
+</xsd:schema>
