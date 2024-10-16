@@ -1,10 +1,11 @@
 
 
-CREATE COMPUTE MODULE main_Compute
+CREATE COMPUTE MODULE RecordsMessageFlow_Compute
 	CREATE FUNCTION Main() RETURNS BOOLEAN
 	BEGIN
-		CALL CopyEntireMessage();
-		SET OutputLocalEnvironment.Destination.File.Name = 'record_'||CAST(InputLocalEnvironment.File.Record AS CHARACTER)||'.txt';
+		-- CALL CopyMessageHeaders();
+		 CALL CopyEntireMessage();
+		 SET OutputLocalEnvironment.Destination.File.Name = 'File_'||CAST(InputLocalEnvironment.File.Record AS CHARACTER)||'.txt';
 		RETURN TRUE;
 	END;
 
