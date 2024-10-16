@@ -1,4 +1,8 @@
 /.metadata/
-/GeneratedBarFiles/
+/GeneratedBarFiles
+/mqsitransit
+/mqsiarchieve
+/mqsiblakout
+/TestModeBarFiles
 /TEST_SERVER/
 *.pem

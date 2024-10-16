@@ -1,0 +1,137 @@
+BROKER SCHEMA ErrorHandling
+
+
+CREATE COMPUTE MODULE ErrorHandling_ErrorHandling
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		CREATE FIELD OutputRoot.JSON.Data.ErrorMessage;
+		CREATE FIELD OutputRoot.JSON.Data.ErrorDescription;
+		DECLARE errorMessage REFERENCE TO OutputRoot.JSON.Data.ErrorMessage;
+        DECLARE errorDescription REFERENCE TO OutputRoot.JSON.Data.ErrorDescription;
+--        --syntax
+--       IF FIELDTYPE(InputExceptionList.RecoverableException.RecoverableException.ParserException.ParserException.Insert[5].Text)IS NOT NULL THEN
+--	        SET errorMessage = 'Syntax Error';
+--	        SET errorDescription = InputExceptionList.RecoverableException.RecoverableException.ParserException.ParserException.Text;        	
+--       END IF; 
+--       
+--       -- select	db data not found
+--       IF FIELDTYPE(InputExceptionList.RecoverableException.ParserException.ParserException.Text)IS NOT NULL THEN
+--       		SET errorMessage = 'db data not found';
+--       		SET errorDescription = InputExceptionList.RecoverableException.ParserException.ParserException.Text;
+--       	END IF;
+--	   -- insert	db logical
+--	   IF FIELDTYPE(InputExceptionList.RecoverableException.RecoverableException.DatabaseException.DatabaseException.Insert[3].Text)IS NOT NULL THEN
+--	   		SET errorMessage = 'db logical Error';
+--	   		SET errorDescription = InputExceptionList.RecoverableException.RecoverableException.DatabaseException.DatabaseException.Insert[3].Text;
+--	   	END IF;
+	   	
+        
+--        SET errorMessage = COALESCE(CAST(InputExceptionList.RecoverableException.DatabaseException.*[1].Text AS CHARACTER), 'Unknown error occurred');
+--        SET errorDescription = COALESCE(CAST(InputExceptionList.RecoverableException.DatabaseException.DatabaseException.*[-1].Insert.Text AS CHARACTER), 'No additional details available');
+--        
+--        SET OutputRoot.JSON.Data.ErrorMessage = errorMessage;
+--		SET OutputRoot.JSON.Data.ErrorDescription = errorDescription;
+-------------------------------------------------------------------------------------------------------
+--		IF (FIELDTYPE(InputExceptionList.RecoverableException.RecoverableException.DatabaseException.Text)IS NOT NULL AND FIELDTYPE(InputExceptionList.RecoverableException.RecoverableException.DatabaseException.DatabaseException.Insert[3].Text)IS NOT NULL) THEN
+--			SET errorMessage = COALESCE(InputExceptionList.RecoverableException.RecoverableException.DatabaseException.Text, 'Unknown error occurred');
+--			SET errorDescription = COALESCE(InputExceptionList.RecoverableException.RecoverableException.DatabaseException.DatabaseException.Insert[3].Text, 'No additional details available');
+--		END IF;
+		
+--		IF (FIELDTYPE(InputExceptionList.RecoverableException.RecoverableException.ParserException.ParserException.Text)IS NOT NULL AND FIELDTYPE(InputExceptionList.RecoverableException.RecoverableException.ParserException.ParserException.Insert[5])IS NOT NULL) THEN
+--			SET errorMessage = InputExceptionList.RecoverableException.RecoverableException.ParserException.ParserException.Text;
+--			SET errorDescription = InputExceptionList.RecoverableException.RecoverableException.ParserException.ParserException.Insert[5];
+--		END IF;
+
+--		SET errorMessage = COALESCE(CAST(InputExceptionList AS CHARACTER), 'Unknown error occurred');
+--		SET errorDescription = COALESCE(CAST(InputExceptionList.RecoverableException AS CHARACTER), 'No additional details available');
+
+-------------------------------------------------------------------------------------------------------
+--		SET OutputRoot.XMLNSC.ErrorDescription = InputExceptionList;
+
+
+
+
+
+
+
+
+--DECLARE errorMessage CHARACTER '';
+--DECLARE errorDescription CHARACTER '';
+
+-- Check if the ExceptionList exists
+		IF FIELDTYPE(InputExceptionList)IS NOT NULL THEN
+		    -- Handle DatabaseException
+		    IF FIELDTYPE(InputExceptionList.RecoverableException.RecoverableException.DatabaseException)IS NOT NULL THEN
+		        SET errorMessage = 'Database Error';
+		        SET errorDescription = InputExceptionList.RecoverableException.RecoverableException.DatabaseException.Text;
+		    -- Handle ParserException
+		    ELSEIF FIELDTYPE(InputExceptionList.RecoverableException.RecoverableException.RecoverableException.ParserException.ParserException)IS NOT NULL THEN
+		        SET errorMessage = 'Parsing Error';
+		        SET errorDescription = InputExceptionList.RecoverableException.RecoverableException.RecoverableException.ParserException.ParserException.Text;
+		    -- Handle TransforrmationException
+		    ELSEIF FIELDTYPE(InputExceptionList.RecoverableException.RecoverableException.RecoverableException.SqlException)IS NOT NULL THEN
+		    	SET errorMessage = 'Transforrmation Error';
+		        SET errorDescription = InputExceptionList.RecoverableException.RecoverableException.RecoverableException.SqlException.Text;
+		    -- Handle MessageException
+		    ELSEIF FIELDTYPE(InputExceptionList.RecoverableException.ParserException)IS NOT NULL THEN
+		    	SET errorMessage = 'Message Error';
+		        SET errorDescription = InputExceptionList.RecoverableException.ParserException.Text;
+		    -- Handle UserException
+		    ELSEIF FIELDTYPE(InputExceptionList.RecoverableException.RecoverableException.UserException.Insert)IS NOT NULL THEN
+		        SET errorMessage = 'User Error';
+		        SET errorDescription = InputExceptionList.RecoverableException.RecoverableException.UserException.Insert.Text;
+		    -- Handle TimeoutException
+		    ELSEIF FIELDTYPE(InputExceptionList.RecoverableException.RecoverableException.TimeoutException)IS NOT NULL THEN
+		        SET errorMessage = 'Timeout Error';
+		        SET errorDescription = InputExceptionList.RecoverableException.RecoverableException.TimeoutException.Text;
+		    -- Handle any other general RecoverableException
+		    ELSE
+		        SET errorMessage = 'General Error';
+		        SET errorDescription = InputExceptionList.RecoverableException.RecoverableException.Text;
+		    END IF;
+		END IF;
+
+-- Set the error response in JSON format
+--SET OutputRoot.JSON.Data = 
+--    JSON.Object(
+--        JSON.Field('ErrorMessage', errorMessage),
+--        JSON.Field('ErrorDescription', errorDescription)
+--    );
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------
+		-- store exception in database
+        DECLARE Source CHARACTER 'P_datasource';
+		DECLARE Sc CHARACTER 'SimpleCRUD';
+		DECLARE Table CHARACTER 'Exceptions';
+		
+		INSERT INTO Database.{Source}.{Sc}.{Table} VALUES (errorMessage,errorDescription );
+		
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;
