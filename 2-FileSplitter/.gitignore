@@ -1,0 +1,14 @@
+# Compiled output directories
+out/
+log/
+in/
+
+# IIB generated files
+.metadata/
+.DS_Store
+
+# Temporary or backup files
+*.class
+*.tmp
+*.bak
+*.swp
