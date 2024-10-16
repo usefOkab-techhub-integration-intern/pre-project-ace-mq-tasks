@@ -3,9 +3,6 @@ out/
 log/
 in/
 
-# IDE project files
-.project
-
 # IIB generated files
 .metadata/
 .DS_Store
