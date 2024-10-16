@@ -8,5 +8,11 @@
 <workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1729069820285_5" label="[6-HTTPSInvoke]" name="[6-HTTPSInvoke]">
 <item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/6-HTTPSInvoke" type="4"/>
 </workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1729084559323_5" label="[2-FileSplitter]" name="[2-FileSplitter]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/2-FileSplitter" type="4"/>
+</workingSet>
+<workingSet editPageId="com.ibm.etools.mft.navigator.BrokerWorkingSet.AppLib" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1729084584262_6" label="[EmployeeFile]" name="[EmployeeFile]">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/EmployeeFile" type="4"/>
+</workingSet>
 <workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1728829026625_3" label="Window Working Set" name="Aggregate for window 1728829026625"/>
 </workingSetManager>
