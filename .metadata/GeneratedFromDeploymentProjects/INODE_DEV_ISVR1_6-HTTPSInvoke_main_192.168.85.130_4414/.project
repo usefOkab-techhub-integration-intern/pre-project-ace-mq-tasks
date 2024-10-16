@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>INODE_DEV_ISVR1_6-HTTPSInvoke_main_192.168.85.130_4414</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+		<nature>com.ibm.etools.msgbroker.tooling.generatedFromDeploymentProjectNature</nature>
+	</natures>
+</projectDescription>

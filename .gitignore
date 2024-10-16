@@ -4,4 +4,5 @@
 /mqsiarchieve
 /mqsiblakout
 /TestModeBarFiles
-/TEST_SERVER
+/TEST_SERVER/
+*.pem

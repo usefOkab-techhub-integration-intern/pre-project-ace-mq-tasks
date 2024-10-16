@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IntegrationNodeConnectionParameters Version="11.0.0" host="192.168.85.130" integrationNodeName="INODE_DEV" listenerPort="4414" userName="joe" xmlns="http://www.ibm.com/xmlns/prod/ace/11"/>
